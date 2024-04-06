@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Space_Mono } from 'next/font/google';
+import './globals.css';
+import Providers from '@/components/Providers';
 
-const inter = Inter({ subsets: ["latin"] });
+const space_mono = Space_Mono({ subsets: ['latin'], weight: '400' });
 
 export const metadata: Metadata = {
-  title: "whisp",
-  description: "Welcome whispers",
+  title: 'whisp',
+  description: 'Welcome whispers',
 };
 
 export default function RootLayout({
@@ -15,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang='en'>
+      <body className={space_mono.className}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
