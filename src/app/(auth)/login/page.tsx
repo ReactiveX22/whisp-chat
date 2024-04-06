@@ -1,18 +1,15 @@
 'use client';
 
 import Button from '@/components/ui/Button';
-import Image from 'next/image';
-import whispLogo from '@/assets/whisp-chat-logo.svg';
-import googleLogo from '@/assets/google-logo.svg';
 
 import { FC, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
-import { error } from 'console';
+import { FaGoogle } from 'react-icons/fa';
 
 interface pageProps {}
 
-const page: FC<pageProps> = ({}) => {
+const Login: FC<pageProps> = ({}) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const loginWithGoogle = async () => {
@@ -27,39 +24,28 @@ const page: FC<pageProps> = ({}) => {
   };
   return (
     <>
-      <div className='flex min-h-full items-center  justify-center py-12 px-4 sm:px6 lg:px-8'>
-        <div className='w-full flex flex-col items-center max-w-md space-y-8'>
-          <div className='flex flex-col items-center gap-8'>
-            {/* <Image src={whispLogo} alt='whisp-logo' height={100} width={100} /> */}
-            <h1 className='mt-6 text-center text-9xl font-bold tracking-tighter text-gray-400'>
-              Whisp_Chat
-            </h1>
-            <h2 className='mt-6 text-center text-3xl font-bold  tracking-tight text-gray-900'>
-              Sign in to your Whisp account
-            </h2>
+      <div className='flex h-screen items-center justify-center'>
+        <div className='flex items-center justify-center gap-10 h-[200px]'>
+          <div className='w-96 p-5 text-wrap text-xl text-right leading-loose'>
+            a chatting app designed for simplicity and ease. add friends, chat,
+            and enjoy the vibe.
           </div>
-          <Button
-            isLoading={isLoading}
-            type='button'
-            className='max-w-sm mx-auto w-full '
-            onClick={loginWithGoogle}
-          >
-            {isLoading ? null : (
-              <div className='pr-1'>
-                <Image
-                  src={googleLogo}
-                  alt='google-logo'
-                  width={16}
-                  height={16}
-                />
-              </div>
-            )}
-            Sign In
-          </Button>
+          <div className='flex flex-col items-start justify-evenly h-full'>
+            <h1 className='text-5xl font-bold'>whisp_chat</h1>
+            <Button
+              isLoading={isLoading}
+              type='button'
+              className='w-1/2 hover:shadow-primary hover:shadow-[0px_0px_15px_-3px] hover:translate-x-2'
+              onClick={loginWithGoogle}
+            >
+              {isLoading ? null : <FaGoogle className='mr-3 h-4 w-4' />}
+              Sign In
+            </Button>
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default page;
+export default Login;
