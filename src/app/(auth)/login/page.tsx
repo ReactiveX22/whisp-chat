@@ -35,7 +35,7 @@ const Login: FC<pageProps> = ({}) => {
             <Button
               isLoading={isLoading}
               type='button'
-              className='w-1/2 hover:shadow-primary hover:shadow-[0px_0px_15px_-3px] hover:translate-x-2'
+              className='w-1/2 shadow-black shadow-sm hover:shadow-primary hover:shadow-[0px_0px_15px_-6px]'
               onClick={loginWithGoogle}
             >
               {isLoading ? null : <FaGoogle className='mr-3 h-4 w-4' />}
