@@ -25,17 +25,17 @@ const Login: FC<pageProps> = ({}) => {
   return (
     <>
       <div className='flex h-screen items-center justify-center'>
-        <div className='flex items-center justify-center gap-10 h-[200px]'>
-          <div className='w-96 p-5 text-wrap text-xl text-right leading-loose'>
+        <div className='flex h-[200px] items-center justify-center gap-10'>
+          <div className='w-96 text-wrap p-5 text-right text-xl leading-loose'>
             a chatting app designed for simplicity and ease. add friends, chat,
             and enjoy the vibe.
           </div>
-          <div className='flex flex-col items-start justify-evenly h-full'>
+          <div className='flex h-full flex-col items-start justify-evenly'>
             <h1 className='text-5xl font-bold'>whisp_chat</h1>
             <Button
               isLoading={isLoading}
               type='button'
-              className='w-1/2 shadow-black shadow-sm hover:shadow-primary hover:shadow-[0px_0px_15px_-6px]'
+              className='w-1/2 shadow-sm shadow-black hover:shadow-[0px_0px_15px_-6px] hover:shadow-primary'
               onClick={loginWithGoogle}
             >
               {isLoading ? null : <FaGoogle className='mr-3 h-4 w-4' />}
