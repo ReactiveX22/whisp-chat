@@ -5,7 +5,7 @@ import { FC } from 'react';
 interface pageProps {}
 
 const page: FC<pageProps> = ({}) => {
-  return <AddFriendButton />;
+  return null;
 };
 
 export default page;

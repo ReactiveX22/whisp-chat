@@ -1,6 +1,10 @@
+import FriendRequestsSidebarOption from '@/components/FriendRequestsSidebarOption';
 import { Icon, Icons } from '@/components/Icons';
+import SignOutButton from '@/components/SignOutButton';
+import { fetchRedis } from '@/helpers/redis';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { FC, ReactNode } from 'react';
@@ -23,6 +27,12 @@ const sideBarOptions: SidebarOption[] = [
 const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
+  const initialUnseenRequestCount = (
+    (await fetchRedis(
+      'smembers',
+      `user:${session.user.id}:incoming_friend_requests`
+    )) as User[]
+  ).length;
 
   return (
     <div className='flex h-screen w-full'>
@@ -55,6 +65,35 @@ const Layout = async ({ children }: LayoutProps) => {
                 );
               })}
             </ul>
+
+            <li>
+              <FriendRequestsSidebarOption
+                sessionId={session.user.id}
+                initialUnseenRequestCount={initialUnseenRequestCount}
+              />
+            </li>
+
+            <li className='-mx-6 mt-auto flex w-full items-center'>
+              <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6'>
+                <div className='relative h-8 w-8'>
+                  <Image
+                    fill
+                    referrerPolicy='no-referrer'
+                    className='rounded-full'
+                    src={session.user.image || ''}
+                    alt='Your Profile Picture'
+                  />
+                </div>
+                <span className='sr-only'>Your Profile</span>
+                <div className='flex flex-col'>
+                  <span aria-hidden='true'>{session.user.name}</span>
+                  <span className='text-xs' aria-hidden='true'>
+                    {session.user.email}
+                  </span>
+                </div>
+              </div>
+              <SignOutButton className='aspect-square' />
+            </li>
           </ul>
         </nav>
       </div>
