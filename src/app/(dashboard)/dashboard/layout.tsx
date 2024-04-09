@@ -6,8 +6,8 @@ import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { FC, ReactNode } from 'react';
+import { redirect } from 'next/navigation';
+import { ReactNode } from 'react';
 
 interface LayoutProps {
   children: ReactNode;
@@ -26,7 +26,9 @@ const sideBarOptions: SidebarOption[] = [
 
 const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(authOptions);
-  if (!session) notFound();
+  if (!session) {
+    redirect('/login');
+  }
   const initialUnseenRequestCount = (
     (await fetchRedis(
       'smembers',
@@ -35,9 +37,9 @@ const Layout = async ({ children }: LayoutProps) => {
   ).length;
 
   return (
-    <div className='flex h-screen w-full'>
-      <div className='flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-500 p-5'>
-        <Link href='/dashboard' className='flex h-16 shrink-0 items-center'>
+    <div className='flex h-screen w-screen gap-8'>
+      <div className='relative ml-8 flex h-full w-max flex-col gap-y-5 border-r border-gray-500'>
+        <Link href='/dashboard' className='flex h-16 items-center'>
           whisp_chat
         </Link>
         <div className='text-xs font-semibold leading-6'>Your Chats</div>
@@ -73,7 +75,7 @@ const Layout = async ({ children }: LayoutProps) => {
               />
             </li>
 
-            <li className='-mx-6 mt-auto flex w-full items-center'>
+            <li className='-mx-6 mt-auto flex  items-center'>
               <div className='flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6'>
                 <div className='relative h-8 w-8'>
                   <Image
@@ -91,13 +93,13 @@ const Layout = async ({ children }: LayoutProps) => {
                     {session.user.email}
                   </span>
                 </div>
+                <SignOutButton className='aspect-square' />
               </div>
-              <SignOutButton className='aspect-square' />
             </li>
           </ul>
         </nav>
       </div>
-      {children}
+      <div className='w-full'>{children}</div>
     </div>
   );
 };

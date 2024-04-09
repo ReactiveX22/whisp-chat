@@ -26,7 +26,7 @@ const FriendRequestsSidebarOption: FC<FriendRequestsSidebarOptionProps> = ({
         <BiUser />
       </div>
       <p className='truncate'>Friend Requests</p>
-      {unseenRequestCount >= 0 ? (
+      {unseenRequestCount > 0 ? (
         <div className='flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs'>
           {unseenRequestCount}
         </div>

@@ -5,6 +5,7 @@ import { signOut } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { LuLoader } from 'react-icons/lu';
 import { BiLogOut } from 'react-icons/bi';
+import { redirect } from 'next/navigation';
 
 interface SignOutButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {}
 
