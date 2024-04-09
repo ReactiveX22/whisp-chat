@@ -1,6 +1,8 @@
 import FriendRequestsSidebarOption from '@/components/FriendRequestsSidebarOption';
 import { Icon, Icons } from '@/components/Icons';
+import SidebarChatList from '@/components/SidebarChatList';
 import SignOutButton from '@/components/SignOutButton';
+import { getFreindsByUserId } from '@/helpers/get-friends-by-id';
 import { fetchRedis } from '@/helpers/redis';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
@@ -29,6 +31,9 @@ const Layout = async ({ children }: LayoutProps) => {
   if (!session) {
     redirect('/login');
   }
+
+  const friends = await getFreindsByUserId(session.user.id);
+
   const initialUnseenRequestCount = (
     (await fetchRedis(
       'smembers',
@@ -42,10 +47,16 @@ const Layout = async ({ children }: LayoutProps) => {
         <Link href='/dashboard' className='flex h-16 items-center'>
           whisp_chat
         </Link>
-        <div className='text-xs font-semibold leading-6'>Your Chats</div>
+
+        {friends.length > 0 ? (
+          <div className='text-xs font-semibold leading-6'>Your Chats</div>
+        ) : null}
+
         <nav className='flex flex-1 flex-col'>
           <ul role='list' className='flex flex-1 flex-col gap-y-7'>
-            <li>Chats</li>
+            <li>
+              <SidebarChatList friends={friends} sessionId={session.user.id} />
+            </li>
             <li>
               <div className='text-xs font-semibold leading-6'>Overview</div>
             </li>
