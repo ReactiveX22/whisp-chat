@@ -9,9 +9,11 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: 'bg-primary text-background',
+        ghost: 'bg-transparent text-text group',
       },
       size: {
         default: 'h-10 py-2 px-2',
+        large: 'h-16 py-2 px-2',
       },
     },
     defaultVariants: {

@@ -15,7 +15,7 @@ const SignOutButton: FC<SignOutButtonProps> = ({ ...props }) => {
   return (
     <Button
       {...props}
-      variant='default'
+      variant='ghost'
       onClick={async () => {
         setIsSigningOut(true);
         try {
@@ -28,9 +28,11 @@ const SignOutButton: FC<SignOutButtonProps> = ({ ...props }) => {
       }}
     >
       {isSigningOut ? (
-        <LuLoader className='h-4 w-4 animate-spin' />
+        <span className='fflex h-full w-full shrink-0 items-center justify-center bg-background text-[0.625rem] font-medium text-gray-400 hover:bg-primary hover:text-background'>
+          <LuLoader className='h-full w-full animate-spin' />
+        </span>
       ) : (
-        <BiLogOut />
+        <BiLogOut className='flex h-full w-full shrink-0 items-center justify-center bg-background text-[0.625rem] font-medium text-gray-400' />
       )}
     </Button>
   );
