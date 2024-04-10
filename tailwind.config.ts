@@ -15,6 +15,10 @@ const config: Config = {
         secondary: '#543180',
         accent: '#a661c3',
       },
+      animation: {
+        enter: 'animate-in slide-in-from-top duration-500',
+        leave: 'animate-out fade-out duration-500',
+      },
     },
     container: {
       center: true,
@@ -26,6 +30,7 @@ const config: Config = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('tailwindcss-animate'),
     require('tailwind-scrollbar')({ nocompatible: true }),
   ],
 };
