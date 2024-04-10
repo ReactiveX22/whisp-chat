@@ -128,7 +128,7 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      <div className='mt-6 w-full px-6'>{children}</div>
+      <div className='w-full'>{children}</div>
     </div>
   );
 };
