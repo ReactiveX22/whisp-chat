@@ -16,6 +16,13 @@ const config: Config = {
         accent: '#a661c3',
       },
     },
+    container: {
+      center: true,
+      padding: '1.5rem',
+      screens: {
+        '2xl': '1360px',
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),

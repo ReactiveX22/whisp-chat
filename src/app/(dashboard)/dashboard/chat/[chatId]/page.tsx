@@ -27,8 +27,6 @@ async function getChatMessages(chatId: string) {
     const reversedDbMessages = dbMessages.reverse();
     const messages = messageArrayValidator.parse(reversedDbMessages);
 
-    console.log(chatId);
-
     return messages;
   } catch (error) {
     console.log(error);
@@ -40,8 +38,6 @@ const page = async ({ params }: PageProps) => {
   const { chatId } = params;
   const session = await getServerSession(authOptions);
   if (!session) {
-    console.log(session);
-
     notFound();
   }
 
@@ -49,8 +45,6 @@ const page = async ({ params }: PageProps) => {
   const [userId1, userId2] = chatId.split('--');
 
   if (user.id !== userId1 && user.id !== userId2) {
-    console.log(user.id, userId1, userId2);
-
     notFound();
   }
 
@@ -62,7 +56,7 @@ const page = async ({ params }: PageProps) => {
 
   return (
     <div className='flex h-full max-h-[calc(100vh-6rem)] flex-1 flex-col justify-between'>
-      <div className='flex justify-between border-b-2 border-gray-900 py-3 sm:items-center'>
+      <div className='flex justify-between border-b-2 border-gray-900 sm:items-center'>
         <div className='relative flex items-center space-x-4'>
           <div className='relative'>
             <div className='relative h-8 w-8 sm:h-12 sm:w-12'>
@@ -87,7 +81,13 @@ const page = async ({ params }: PageProps) => {
         </div>
       </div>
 
-      <Messages initialMessages={initialMessages} sessionId={session.user.id} />
+      <Messages
+        initialMessages={initialMessages}
+        sessionId={session.user.id}
+        sessionImage={session.user.image}
+        chatPartner={chatPartner}
+        chatId={chatId}
+      />
 
       <ChatInput chatPartner={chatPartner} chatId={chatId} />
     </div>

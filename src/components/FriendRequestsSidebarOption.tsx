@@ -1,10 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { FC, useState } from 'react';
-import { BiUser } from 'react-icons/bi';
-import Button from './ui/Button';
-import toast from 'react-hot-toast';
+import { FC, useEffect, useState } from 'react';
+import { pusherClient } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
+import SidebarOptions, { SidebarOption } from './ui/SidebarOptions';
 
 interface FriendRequestsSidebarOptionProps {
   sessionId: string;
@@ -19,24 +18,37 @@ const FriendRequestsSidebarOption: FC<FriendRequestsSidebarOptionProps> = ({
     initialUnseenRequestCount
   );
 
-  return (
-    <>
-      <Link
-        href='/dashboard/requests'
-        className='group flex gap-3 rounded-md p-2 text-sm font-semibold leading-6 text-text hover:bg-gray-900 hover:text-primary'
-      >
-        <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 text-[0.625rem] font-medium text-gray-400 group-hover:border-primary group-hover:text-primary'>
-          <BiUser className='h-4 w-4' />
-        </span>
-        <p className='truncate'>Friend Requests</p>
-        {unseenRequestCount > 0 ? (
-          <div className='flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs'>
-            {unseenRequestCount}
-          </div>
-        ) : null}
-      </Link>
-    </>
-  );
+  const sideBarOption: SidebarOption = {
+    id: 2,
+    name: 'friend_requests',
+    href: '/dashboard/requests',
+    Icon: 'BiUser',
+    iconSize: 20,
+    count: 10,
+  };
+
+  useEffect(() => {
+    pusherClient.subscribe(
+      toPusherKey(`user:${sessionId}:incoming_friend_requests`)
+    );
+
+    const friendRequestHandler = () => {
+      setUnseenRequestCount((prev) => prev + 1);
+    };
+
+    pusherClient.bind('incoming_friend_requests', friendRequestHandler);
+
+    return () => {
+      pusherClient.unsubscribe(
+        toPusherKey(`user:${sessionId}:incoming_friend_requests`)
+      );
+      pusherClient.unbind('incoming_friend_requests', friendRequestHandler);
+    };
+  }, [sessionId]);
+
+  sideBarOption.count = unseenRequestCount;
+
+  return <SidebarOptions option={sideBarOption} />;
 };
 
 export default FriendRequestsSidebarOption;

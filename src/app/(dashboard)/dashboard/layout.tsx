@@ -1,8 +1,7 @@
 import FriendRequestsSidebarOption from '@/components/FriendRequestsSidebarOption';
-import { Icon, Icons } from '@/components/Icons';
 import SidebarChatList from '@/components/SidebarChatList';
 import SignOutButton from '@/components/SignOutButton';
-import Button from '@/components/ui/Button';
+import SidebarOptions, { SidebarOption } from '@/components/ui/SidebarOptions';
 import { getFreindsByUserId } from '@/helpers/get-friends-by-id';
 import { fetchRedis } from '@/helpers/redis';
 import { authOptions } from '@/lib/auth';
@@ -16,15 +15,15 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-interface SidebarOption {
-  id: number;
-  name: string;
-  href: string;
-  Icon: Icon;
-}
-
 const sideBarOptions: SidebarOption[] = [
-  { id: 1, name: 'Add Friend', href: '/dashboard/add', Icon: 'FiUserPlus' },
+  {
+    id: 1,
+    name: 'add_friend',
+    href: '/dashboard/add',
+    Icon: 'BiUser',
+    iconSize: 20,
+    count: 0,
+  },
 ];
 
 const Layout = async ({ children }: LayoutProps) => {
@@ -45,7 +44,7 @@ const Layout = async ({ children }: LayoutProps) => {
   return (
     <div className='flex h-screen w-screen'>
       {/* sidebar */}
-      <div className='flex max-h-full max-w-64 flex-auto grow flex-col gap-y-6 border-r border-gray-600 bg-background px-3 transition-all ease-in-out hover:max-w-full'>
+      <div className='flex max-h-full max-w-64 flex-auto grow flex-col gap-y-6 border-r border-gray-900 bg-background px-3 transition-all ease-in-out hover:max-w-full'>
         <Link
           href='/dashboard'
           className='mb-3 mt-6 flex place-content-center items-center text-3xl font-bold text-gray-600'
@@ -79,33 +78,19 @@ const Layout = async ({ children }: LayoutProps) => {
 
               <ul role='list' className='-mr-2 mt-3 max-w-full space-y-1'>
                 {sideBarOptions.map((option) => {
-                  const Icon = Icons[option.Icon];
-                  return (
-                    <li key={option.id}>
-                      <Link
-                        href={option.href}
-                        className='group flex gap-3 rounded-md p-2 text-sm font-semibold leading-6 text-text hover:bg-gray-900 hover:text-primary'
-                      >
-                        <span className='flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-200 text-[0.625rem] font-medium text-gray-400 group-hover:border-primary group-hover:text-primary'>
-                          <Icon className='h-4 w-4' />
-                        </span>
-                        <span className='truncate'>{option.name}</span>
-                      </Link>
-                    </li>
-                  );
+                  return <SidebarOptions key={option.id} option={option} />;
                 })}
+
+                <FriendRequestsSidebarOption
+                  sessionId={session.user.id}
+                  initialUnseenRequestCount={initialUnseenRequestCount}
+                />
               </ul>
-            </li>
-            <li>
-              <FriendRequestsSidebarOption
-                sessionId={session.user.id}
-                initialUnseenRequestCount={initialUnseenRequestCount}
-              />
             </li>
 
             <li className='-mx-6 mt-auto flex items-center'>
               <div className='flex max-w-full items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-text'>
-                <div className='relative h-9 w-9 shrink-0 rounded-full border-[1.6px] border-gray-600'>
+                <div className='relative h-9 w-9 shrink-0 rounded-full border-[1.6px] border-gray-900'>
                   <Image
                     fill
                     referrerPolicy='no-referrer'
@@ -128,7 +113,7 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      <div className='w-full'>{children}</div>
+      <div className='container h-screen w-full py-16 md:py-12'>{children}</div>
     </div>
   );
 };

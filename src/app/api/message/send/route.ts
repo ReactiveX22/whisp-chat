@@ -4,6 +4,8 @@ import { db } from '@/lib/db';
 import { getServerSession } from 'next-auth';
 import { nanoid } from 'nanoid';
 import { messageValidator } from '@/lib/validations/message';
+import { pusherServer } from '@/lib/pusher';
+import { toPusherKey } from '@/lib/utils';
 
 export async function POST(req: Request) {
   try {
@@ -49,7 +51,14 @@ export async function POST(req: Request) {
     };
     const message = messageValidator.parse(messageData);
 
-    await db.zadd(`chat:${chatId}:messages`, {
+    //notify chatrooms
+    pusherServer.trigger(
+      toPusherKey(`chat:${chatId}`),
+      'incoming_message',
+      message
+    );
+
+    await db.zadd(`chat:${chatId}`, {
       score: timestamp,
       member: JSON.stringify(message),
     });
