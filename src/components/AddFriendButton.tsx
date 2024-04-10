@@ -14,6 +14,7 @@ type FormData = z.infer<typeof addFriendValidator>;
 
 const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
   const [showSuccessState, setShowSuccessState] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     register,
@@ -22,15 +23,19 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(addFriendValidator),
+    mode: 'onSubmit',
   });
 
   const addFriend = async (email: string) => {
+    setIsLoading(true);
+
     try {
       const validatedEmail = addFriendValidator.parse({ email });
 
       await axios.post('/api/friends/add', {
         email: validatedEmail,
       });
+      setIsLoading(false);
 
       setShowSuccessState(true);
     } catch (error) {
@@ -45,6 +50,8 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
       }
 
       setError('email', { message: 'Something went wrong.' });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,25 +60,33 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='max-w-sm'>
-      <label htmlFor='email' className='block text-sm font-medium leading-6'>
-        Add friend by E-Mail
-      </label>
+    <div className='w-1/3'>
+      <form onSubmit={handleSubmit(onSubmit)} className='min-w-sm'>
+        <label htmlFor='email' className='block text-sm font-medium leading-6'>
+          Add friends by E-Mail
+        </label>
 
-      <div className='mt-2 flex gap-4'>
-        <input
-          {...register('email')}
-          type='text'
-          className='py-1. block w-full rounded-md border-0 text-background shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
-          placeholder='you@example.com'
-        />
-        <Button>Add</Button>
-      </div>
-      <p className='mt-1 text-sm text-red-600'>{errors.email?.message}</p>
-      {showSuccessState ? (
-        <p className='mt-1 text-sm text-green-600'>Friend request sent!</p>
-      ) : null}
-    </form>
+        <div className='mt-2 flex grow gap-4'>
+          <input
+            {...register('email')}
+            type='text'
+            className='text-md block w-3/4 shrink-0 rounded-md border-0 bg-text py-1 text-background  placeholder:text-gray-600 sm:text-sm sm:leading-6'
+            placeholder='you@example.com'
+          />
+          <Button
+            variant='default'
+            className='shrink-0 bg-primary px-6'
+            isLoading={isLoading}
+          >
+            <div>Add</div>
+          </Button>
+        </div>
+        <p className='mt-2 text-sm text-red-400'>{errors.email?.message}</p>
+        {showSuccessState ? (
+          <p className='mt-2 text-sm text-green-400'>Friend request sent!</p>
+        ) : null}
+      </form>
+    </div>
   );
 };
 

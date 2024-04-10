@@ -6,4 +6,8 @@
   body {
     @apply bg-background text-text;
   }
+
+  h1 {
+    @apply text-3xl font-bold text-gray-600;
+  }
 }

@@ -45,25 +45,33 @@ const Layout = async ({ children }: LayoutProps) => {
   return (
     <div className='flex h-screen w-screen'>
       {/* sidebar */}
-      <div className='hidden h-full max-w-xs flex-auto grow flex-col gap-y-5 border-r border-text bg-background px-6 md:flex'>
+      <div className='flex max-h-full max-w-64 flex-auto grow flex-col gap-y-6 border-r border-gray-600 bg-background px-3 transition-all ease-in-out hover:max-w-full'>
         <Link
           href='/dashboard'
-          className='flex h-16 place-content-center items-center text-3xl font-bold text-gray-600'
+          className='mb-3 mt-6 flex place-content-center items-center text-3xl font-bold text-gray-600'
         >
           whisp_chat
         </Link>
 
-        {friends.length > 0 ? (
-          <div className='text-xs font-semibold leading-6 text-gray-600'>
-            Your Chats
-          </div>
-        ) : null}
-
         <nav className='flex flex-1 flex-col'>
-          <ul role='list' className='flex flex-1 flex-col gap-y-6'>
-            <li className='max-w-full'>
-              <SidebarChatList friends={friends} sessionId={session.user.id} />
-            </li>
+          <ul
+            role='list'
+            className='flex flex-1 flex-col justify-between gap-y-1'
+          >
+            {friends.length > 0 ? (
+              <>
+                <div className='text-xs font-semibold leading-6 text-gray-600'>
+                  Your Chats
+                </div>
+                <div className='max-w-full'>
+                  <SidebarChatList
+                    friends={friends}
+                    sessionId={session.user.id}
+                  />
+                </div>
+              </>
+            ) : null}
+
             <li>
               <div className='text-xs font-semibold leading-6 text-gray-600'>
                 Overview
@@ -120,7 +128,7 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      <div className='w-full'>{children}</div>
+      <div className='mt-6 w-full px-6'>{children}</div>
     </div>
   );
 };

@@ -34,17 +34,19 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
 
         return (
           <li key={friend.id}>
-            <a
-              href={`/dashboard/chat/${chatHrefConstructor(sessionId, friend.id)}`}
-              className='group flex items-center gap-x-3 rounded-md text-sm font-semibold leading-6'
-            >
-              {friend.email}
-              {unseenMessagesCount > 0 ? (
-                <div className='place-content-center bg-red-500 text-xs font-medium text-background'>
-                  {unseenMessagesCount}
-                </div>
-              ) : null}
-            </a>
+            <div className='truncate rounded-md p-2 hover:bg-gray-900'>
+              <a
+                href={`/dashboard/chat/${chatHrefConstructor(sessionId, friend.id)}`}
+                className='group flex items-center gap-x-3 rounded-md text-sm leading-6 tracking-wide'
+              >
+                {friend.email}
+                {unseenMessagesCount > 0 ? (
+                  <div className='place-content-center bg-red-500 text-xs font-medium text-background'>
+                    {unseenMessagesCount}
+                  </div>
+                ) : null}
+              </a>
+            </div>
           </li>
         );
       })}

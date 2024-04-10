@@ -46,18 +46,18 @@ const FriendRequests: FC<FriendRequestsProps> = ({
   return (
     <>
       {friendRequests.length === 0 ? (
-        <p className='text-sm text-zinc-500'>Nothing to show here...</p>
+        <p className='text-md text-gray-600'>Nothing to show here...</p>
       ) : (
         friendRequests.map((request) => (
           <div key={request.senderId} className='flex items-center gap-4'>
-            <LuUserPlus className='h-5 w-5 text-white' />
+            <LuUserPlus className='h-5 w-5 text-text' />
             <p className='text-lg font-medium'>{request.senderEmail}</p>
             <button
               onClick={() => acceptFriend(request.senderId)}
               aria-label='accept friend'
               className='grid h-8 w-8 place-items-center rounded-full bg-indigo-600 transition hover:bg-indigo-700 hover:shadow-md'
             >
-              <BiCheck className='h-3/4 w-3/4 font-semibold text-white' />
+              <BiCheck className='h-3/4 w-3/4 font-semibold text-text' />
             </button>
 
             <button
@@ -65,7 +65,7 @@ const FriendRequests: FC<FriendRequestsProps> = ({
               aria-label='deny friend'
               className='grid h-8 w-8 place-items-center rounded-full bg-red-600 transition hover:bg-red-700 hover:shadow-md'
             >
-              <BiX className='h-3/4 w-3/4 font-semibold text-white' />
+              <BiX className='h-3/4 w-3/4 font-semibold text-text' />
             </button>
           </div>
         ))
