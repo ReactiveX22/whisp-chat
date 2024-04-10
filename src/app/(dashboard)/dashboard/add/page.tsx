@@ -1,7 +1,9 @@
 import AddFriendButton from '@/components/AddFriendButton';
-import { FC } from 'react';
 
-const page: FC = ({}) => {
+const page = async ({}) => {
+  await new Promise((resolve) => {
+    setTimeout(resolve, 10000);
+  });
   return (
     <main className='flex w-full flex-col'>
       <h1 className='mb-8 flex place-content-center text-3xl font-bold text-gray-600'>
