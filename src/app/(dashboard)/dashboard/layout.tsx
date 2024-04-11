@@ -122,7 +122,9 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      <div className='container m-0 flex h-screen p-0'>{children}</div>
+      <div className='container m-0 flex h-screen py-14 md:py-0 '>
+        {children}
+      </div>
     </div>
   );
 };

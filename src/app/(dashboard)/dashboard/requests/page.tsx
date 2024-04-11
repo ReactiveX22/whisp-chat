@@ -15,17 +15,26 @@ const page = async () => {
   )) as string[];
 
   const incomingFriendRequests = await Promise.all(
-    incomingSenderIds.map(async (senderId) => {
-      const sender = (await fetchRedis('get', `user:${senderId}`)) as string;
+    incomingSenderIds
+      .filter((senderId) => senderId !== null) // Filter out null senderIds
+      .map(async (senderId) => {
+        const sender = (await fetchRedis('get', `user:${senderId}`)) as string;
+        console.log(sender);
 
-      const senderParsed = JSON.parse(sender) as User;
-
-      return {
-        senderId,
-        senderEmail: senderParsed.email,
-      };
-    })
-  );
+        if (sender !== null) {
+          const senderParsed = JSON.parse(sender) as User;
+          // Check if senderEmail is not null after parsing
+          if (senderParsed.email !== null) {
+            return {
+              senderId,
+              senderEmail: senderParsed.email,
+            };
+          }
+        }
+        // If senderId is null or senderEmail is null after parsing, do not return anything for this senderId
+        return null;
+      })
+  ).then((requests) => requests.filter((request) => request !== null));
 
   return (
     <main className='flex w-full flex-col p-4'>

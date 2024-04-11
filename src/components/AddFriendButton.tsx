@@ -63,25 +63,25 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
   };
 
   return (
-    <div className='w-1/3'>
+    <div className='w-full md:max-w-[65%]'>
       <form onSubmit={handleSubmit(onSubmit)} className='min-w-sm'>
         <label htmlFor='email' className='block text-sm font-medium leading-6'>
           Add friends by E-Mail
         </label>
 
-        <div className='mt-2 flex grow gap-4'>
+        <div className='mt-2 flex flex-col items-center gap-4 md:w-3/4 md:flex-row'>
           <input
             {...register('email')}
             type='text'
-            className='text-md block w-3/4 shrink-0 rounded-md border-0 bg-text py-1 text-background  placeholder:text-gray-600 sm:text-sm sm:leading-6'
+            className='text-md block max-h-8 grow rounded-md border-0 bg-text py-1 text-background  placeholder:text-gray-600 sm:text-sm sm:leading-6'
             placeholder='you@example.com'
           />
           <Button
             variant='default'
-            className='shrink-0 bg-primary px-6'
+            className='w-fit shrink-0 bg-primary px-6 md:max-w-fit'
             isLoading={isLoading}
           >
-            <div>Add</div>
+            Add
           </Button>
         </div>
         <p className='mt-2 text-sm text-red-400'>{errors.email?.message}</p>
