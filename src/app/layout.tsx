@@ -18,7 +18,8 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={space_mono.className}>
-        <Providers>{children}</Providers>
+        {/* <Providers>{children}</Providers> */}
+        {children}
       </body>
     </html>
   );
