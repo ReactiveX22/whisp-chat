@@ -52,22 +52,27 @@ export async function POST(req: Request) {
     const message = messageValidator.parse(messageData);
 
     //notify chatrooms
-    pusherServer.trigger(
-      toPusherKey(`chat:${chatId}`),
-      'incoming_message',
-      message
-    );
+    await Promise.all([
+      pusherServer.trigger(
+        toPusherKey(`chat:${chatId}`),
+        'incoming_message',
+        message
+      ),
+      pusherServer.trigger(
+        toPusherKey(`user:${friendId}:chats`),
+        'new_message',
+        {
+          ...message,
+          senderImage: sender.image,
+          senderName: sender.name,
+        }
+      ),
 
-    pusherServer.trigger(toPusherKey(`user:${friendId}:chats`), 'new_message', {
-      ...message,
-      senderImage: sender.image,
-      senderName: sender.name,
-    });
-
-    await db.zadd(`chat:${chatId}`, {
-      score: timestamp,
-      member: JSON.stringify(message),
-    });
+      await db.zadd(`chat:${chatId}`, {
+        score: timestamp,
+        member: JSON.stringify(message),
+      }),
+    ]);
 
     return new Response('OK', { status: 200 });
   } catch (error) {
