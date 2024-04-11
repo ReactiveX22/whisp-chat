@@ -29,7 +29,7 @@ const UnseendChatToast: FC<UnseendChatToastProps> = ({
       )}
     >
       <a
-        href={`/dashboard/chats/${chatHrefConstructor(sessionId, senderId)}`}
+        href={`/dashboard/chat/${chatHrefConstructor(sessionId, senderId)}`}
         onClick={() => toast.dismiss(t.id)}
         className='w-0 flex-1 p-4'
       >

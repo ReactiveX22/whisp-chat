@@ -7,6 +7,7 @@ import Button from './ui/Button';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
 
 interface AddFriendButtonProps {}
 
@@ -23,7 +24,6 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(addFriendValidator),
-    mode: 'onSubmit',
   });
 
   const addFriend = async (email: string) => {
@@ -36,16 +36,19 @@ const AddFriendButton: FC<AddFriendButtonProps> = ({}) => {
         email: validatedEmail,
       });
       setIsLoading(false);
-
       setShowSuccessState(true);
+      toast.success('Friend request sent!');
     } catch (error) {
       if (error instanceof z.ZodError) {
+        toast.error('Email err');
         setError('email', { message: error.message });
         return;
       }
 
       if (error instanceof AxiosError) {
-        setError('email', { message: error.response?.data });
+        // setError('email', { message: error.response?.data });
+        toast.error(error.response?.data);
+
         return;
       }
 

@@ -49,7 +49,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     };
 
     const newFriendHandler = () => {
-      router.refresh();
+      router.replace(pathname!);
     };
 
     pusherClient.bind('new_message', chatHandler);
