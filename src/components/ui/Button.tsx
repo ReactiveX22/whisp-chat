@@ -3,7 +3,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import { LuLoader2 } from 'react-icons/lu';
 import { ButtonHTMLAttributes, FC } from 'react';
 
-const buttonVariants = cva(
+export const buttonVariants = cva(
   '[word-spacing:-5px] text-md font-bold inline-flex items-center justify-center transition rounded-full disabled:pointer-events-none disabled:opacity-25',
   {
     variants: {

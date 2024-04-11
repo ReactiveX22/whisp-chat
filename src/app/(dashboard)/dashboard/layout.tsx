@@ -1,4 +1,5 @@
 import FriendRequestsSidebarOption from '@/components/FriendRequestsSidebarOption';
+import MobileChatLayout from '@/components/MobileChatLayout';
 import SidebarChatList from '@/components/SidebarChatList';
 import SignOutButton from '@/components/SignOutButton';
 import SidebarOptions, { SidebarOption } from '@/components/ui/SidebarOptions';
@@ -43,8 +44,16 @@ const Layout = async ({ children }: LayoutProps) => {
 
   return (
     <div className='flex h-screen w-screen'>
+      <div className='md:hidden'>
+        <MobileChatLayout
+          friends={friends}
+          session={session}
+          sideBarOptions={sideBarOptions}
+          initialUnseenRequestCount={initialUnseenRequestCount}
+        />
+      </div>
       {/* sidebar */}
-      <div className='flex max-h-full max-w-64 flex-auto grow flex-col gap-y-6 border-r border-gray-900 bg-background px-3 transition-all ease-in-out hover:max-w-full'>
+      <div className='hidden max-h-full max-w-64 flex-auto grow flex-col gap-y-6 border-r border-gray-900 bg-background px-3 transition-all ease-in-out hover:max-w-full md:flex'>
         <Link
           href='/dashboard'
           className='mb-3 mt-6 flex place-content-center items-center text-3xl font-bold text-gray-600'
@@ -113,7 +122,7 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      <div className='container h-screen w-full py-16 md:py-12'>{children}</div>
+      <div className='container h-screen w-full pt-6'>{children}</div>
     </div>
   );
 };

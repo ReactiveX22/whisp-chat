@@ -14,5 +14,5 @@ export const getFreindsByUserId = async (userId: string) => {
     })
   );
 
-  return friends;
+  return friends as User[];
 };

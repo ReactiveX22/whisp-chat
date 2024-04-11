@@ -18,7 +18,7 @@ const page = async ({}) => {
     friends.map(async (friend) => {
       const [lastMessageRaw] = (await fetchRedis(
         'zrange',
-        `chat:${chatHrefConstructor(session.user.id, friend.id)}:messages`,
+        `chat:${chatHrefConstructor(session.user.id, friend.id)}`,
         -1,
         -1
       )) as string[];
@@ -42,18 +42,18 @@ const page = async ({}) => {
   );
 
   return (
-    <div className='container py-12'>
-      <h1 className='mb-8 text-5xl font-bold'>Recent chats</h1>
+    <div className='container'>
+      <h1 className='mb-8 text-3xl font-semibold'>recent_chats</h1>
       {friendsWithLastMessage.length === 0 ? (
-        <p className='text-sm text-gray-600'>Nothing to show here...</p>
+        <p className='text-sm text-gray-600'>empty</p>
       ) : (
         friendsWithLastMessage.map((friend) => (
           <div
             key={friend.id}
-            className='relative rounded-md border border-gray-600 bg-gray-900 p-3'
+            className='relative max-w-full rounded-md border border-gray-600 bg-gray-900 p-3  md:max-w-[50%]'
           >
-            <div className='absolute inset-y-0 right-4 flex items-center'>
-              <FaChevronRight className='h-7 w-7 text-gray-600' />
+            <div className='absolute inset-y-0 right-4 flex items-center font-thin'>
+              <FaChevronRight className='h-6 w-6 text-gray-600' />
             </div>
 
             <Link
@@ -61,9 +61,9 @@ const page = async ({}) => {
                 session.user.id,
                 friend.id
               )}`}
-              className='relative sm:flex'
+              className='relative flex gap-3 overflow-hidden'
             >
-              <div className='mb-4 flex items-center justify-center sm:mb-0 sm:mr-4'>
+              <div className='flex items-center'>
                 <div className='relative h-9 w-9'>
                   <Image
                     referrerPolicy='no-referrer'
@@ -76,8 +76,8 @@ const page = async ({}) => {
               </div>
 
               <div>
-                <h4 className='text-lg font-semibold'>{friend.name}</h4>
-                <p className='mt-1 max-w-md text-gray-500'>
+                <h4 className='text-lg'>{friend.name}</h4>
+                <p className='max-w-md truncate text-sm text-gray-500'>
                   <span className='text-gray-600'>
                     {friend.lastMessage.senderId === session.user.id
                       ? 'You: '
