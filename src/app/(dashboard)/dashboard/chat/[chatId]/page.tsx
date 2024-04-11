@@ -55,9 +55,9 @@ const page = async ({ params }: PageProps) => {
   const initialMessages = await getChatMessages(chatId);
 
   return (
-    <div className='flex h-full max-h-[calc(100vh-6rem)] flex-1 flex-col justify-between'>
+    <div className='flex h-full max-h-[calc(100vh-4rem)] flex-1 flex-col justify-between'>
       <div className='flex justify-between border-b-2 border-gray-900 sm:items-center'>
-        <div className='relative flex items-center space-x-4'>
+        <div className='relative flex items-center space-x-4 p-4'>
           <div className='relative'>
             <div className='relative h-8 w-8 sm:h-12 sm:w-12'>
               <Image
@@ -72,9 +72,7 @@ const page = async ({ params }: PageProps) => {
 
           <div className='flex flex-col leading-tight'>
             <div className='flex items-center text-xl'>
-              <span className='mr-3 font-semibold text-gray-400'>
-                {chatPartner.name}
-              </span>
+              <span className='mr-3 text-gray-400'>{chatPartner.name}</span>
             </div>
             <span className='text-sm text-gray-600'>{chatPartner.email}</span>
           </div>
@@ -89,7 +87,9 @@ const page = async ({ params }: PageProps) => {
         chatId={chatId}
       />
 
-      <ChatInput chatPartner={chatPartner} chatId={chatId} />
+      <div className='flex items-center justify-center'>
+        <ChatInput chatPartner={chatPartner} chatId={chatId} />
+      </div>
     </div>
   );
 };

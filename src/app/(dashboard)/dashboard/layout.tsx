@@ -53,7 +53,7 @@ const Layout = async ({ children }: LayoutProps) => {
         />
       </div>
       {/* sidebar */}
-      <div className='hidden max-h-full max-w-64 flex-auto grow flex-col gap-y-6 border-r border-gray-900 bg-background px-3 transition-all ease-in-out hover:max-w-full md:flex'>
+      <div className='hidden max-h-full max-w-lg flex-auto grow flex-col gap-y-6 border-r border-gray-900 bg-background px-3 transition-all ease-in-out  md:flex'>
         <Link
           href='/dashboard'
           className='mb-3 mt-6 flex place-content-center items-center text-3xl font-bold text-gray-600'
@@ -122,7 +122,7 @@ const Layout = async ({ children }: LayoutProps) => {
           </ul>
         </nav>
       </div>
-      <div className='container h-screen w-full pt-6'>{children}</div>
+      <div className='container m-0 flex h-screen p-0'>{children}</div>
     </div>
   );
 };

@@ -4,6 +4,8 @@ import ReactTextareaAutosize from 'react-textarea-autosize';
 import Button from './ui/Button';
 import toast from 'react-hot-toast';
 import axios, { AxiosError } from 'axios';
+import { BiSend } from 'react-icons/bi';
+import { LuLoader2 } from 'react-icons/lu';
 
 interface ChatInputProps {
   chatPartner: User;
@@ -35,8 +37,8 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
   };
 
   return (
-    <div className='mb-2 border-t border-gray-600 px-4 pt-4 sm:mb-0'>
-      <div className='relative flex-1 overflow-hidden rounded-lg bg-gray-900 p-1 shadow-sm ring-1 ring-inset ring-gray-600 focus-within:ring-1 focus-within:ring-primary'>
+    <div className='z-10 flex w-3/4 justify-between rounded-md bg-gray-900'>
+      <div className='relative flex max-h-[50vh] flex-auto flex-col  rounded-lg bg-gray-900'>
         <ReactTextareaAutosize
           ref={textareaRef}
           onKeyDown={(e) => {
@@ -45,29 +47,36 @@ const ChatInput: FC<ChatInputProps> = ({ chatPartner, chatId }) => {
               sendMessage();
             }
           }}
-          rows={1}
+          rows={5}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`message ${chatPartner.name}`}
-          className='block w-full resize-none border-0 bg-gray-900 text-text placeholder:text-gray-600 focus:ring-0 sm:py-1.5 sm:text-sm sm:leading-6'
+          className='z-0 overflow-y-scroll scroll-smooth rounded-md bg-gray-900 text-text scrollbar scrollbar-track-background scrollbar-thumb-gray-900 scrollbar-thumb-rounded-full scrollbar-w-2 placeholder:text-gray-600 focus:ring-0'
+          style={{
+            width: '100%',
+            resize: 'none',
+            overflow: 'auto',
+            border: 'none',
+            paddingRight: '5rem',
+            placeContent: 'center',
+          }}
         />
-
-        <div
-          onClick={() => textareaRef.current?.focus()}
-          className='py-2'
-          aria-hidden='true'
-        >
-          <div className='py-px'>
-            <div className='h-6' />
-          </div>
-        </div>
-
-        <div className='absolute bottom-0 right-0 flex justify-between py-2 pl-3 pr-2'>
-          <div className='flex-shrink-0'>
-            <Button onClick={sendMessage} isLoading={isLoading} type='submit'>
-              Post
-            </Button>
-          </div>
+      </div>
+      <div className='relative'>
+        <div className='absolute bottom-1 right-4 mx-2 flex h-8 w-8 items-center'>
+          <Button
+            variant='ghost'
+            onClick={sendMessage}
+            type='submit'
+            className='h-full w-full p-1'
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <LuLoader2 className='h-full w-full animate-spin' />
+            ) : (
+              <BiSend className='h-full w-full' />
+            )}
+          </Button>
         </div>
       </div>
     </div>

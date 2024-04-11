@@ -42,18 +42,18 @@ const page = async ({}) => {
   );
 
   return (
-    <div className='container'>
-      <h1 className='mb-8 text-3xl font-semibold'>recent_chats</h1>
+    <div className='container flex flex-col pl-14 pt-6'>
+      <h1 className='mb-8 text-3xl font-bold'>recent_chats</h1>
       {friendsWithLastMessage.length === 0 ? (
         <p className='text-sm text-gray-600'>empty</p>
       ) : (
         friendsWithLastMessage.map((friend) => (
           <div
             key={friend.id}
-            className='relative max-w-full rounded-md border border-gray-600 bg-gray-900 p-3  md:max-w-[50%]'
+            className='relative max-w-full rounded-md border border-gray-900 p-3  md:max-w-[50%]'
           >
             <div className='absolute inset-y-0 right-4 flex items-center font-thin'>
-              <FaChevronRight className='h-6 w-6 text-gray-600' />
+              <FaChevronRight className='h-6 w-6 text-gray-900' />
             </div>
 
             <Link

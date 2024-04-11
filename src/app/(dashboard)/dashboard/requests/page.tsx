@@ -28,13 +28,17 @@ const page = async () => {
   );
 
   return (
-    <main className='pt-8'>
-      <h1 className='mb-8 text-5xl font-bold'>friend_requests</h1>
-      <div className='flex flex-col gap-4'>
-        <FriendRequests
-          incomingFriendRequests={incomingFriendRequests}
-          sessionId={session.user.id}
-        />
+    <main className='flex w-full flex-col p-4'>
+      <div className='ml-8 mt-2 flex h-full w-3/4 flex-col'>
+        <h1 className='mb-8 flex text-3xl font-bold text-gray-600'>
+          friend_requests
+        </h1>
+        <div className='flex flex-col gap-4'>
+          <FriendRequests
+            incomingFriendRequests={incomingFriendRequests}
+            sessionId={session.user.id}
+          />
+        </div>
       </div>
     </main>
   );
