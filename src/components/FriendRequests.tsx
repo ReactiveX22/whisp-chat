@@ -8,7 +8,7 @@ import { FC, useEffect, useState } from 'react';
 import { BiCheck, BiUserPlus, BiX } from 'react-icons/bi';
 
 interface FriendRequestsProps {
-  incomingFriendRequests: IncomingFriendRequests[];
+  incomingFriendRequests: any;
   sessionId: string;
 }
 
